@@ -45,7 +45,7 @@ This project performs the following steps:
 2. Run the script:
 
 ```bash
-   python count_windows.py
+   python main.py
 ```
 
 3. The script will process the image, detect windows, and display the result with detected windows highlighted.
