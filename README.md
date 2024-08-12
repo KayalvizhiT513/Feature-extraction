@@ -52,9 +52,9 @@ This project performs the following steps:
 
 ## 📜 Example Output
 
-- **Gray Image**: 
-- **Edge Detected Image**: 
-- **Detected Windows**: 
+- **Gray Image**: ![Edge Detected](images/edge_detected.jpg)
+- **Edge Detected Image**: ![Gray Image](images/gray_img.jpg)
+- **Detected Windows**: ![Detected Windows](images/windows_detected.jpg)
 
 ## 🤔 Notes
 
