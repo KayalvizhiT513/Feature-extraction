@@ -32,23 +32,35 @@ for aperture in [3, 5]:
     for contour in contours:
         area = cv2.contourArea(contour)
         # Filter contours based on area size to identify potential windows
-        if 500 < area < 2000:
-            approx = cv2.approxPolyDP(contour, 0.05 * cv2.arcLength(contour, True), True)
-            # Check if the shape is roughly rectangular
-            if len(approx) >= 4:
-                x, y, w, h = cv2.boundingRect(contour)
-                aspect_ratio = float(w) / h
-                # Check if the aspect ratio is within a reasonable range for windows
-                if 0.1 < aspect_ratio < 1.5:
-                    new_box = (x, y, w, h)
-                    # Ensure the new box does not overlap significantly with existing boxes
-                    if not any(iou(new_box, box) > 0.1 for box in detected_boxes):
-                        window_count += 1
-                        detected_boxes.append(new_box)
-                        # Draw rectangle around the detected window
-                        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-                        # Label the window with its count
-                        cv2.putText(image, str(window_count), (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        if area < 500 or area > 2000:
+            continue
+
+        approx = cv2.approxPolyDP(contour, 0.05 * cv2.arcLength(contour, True), True)
+
+        # Check if the shape is roughly rectangular
+        if len(approx) < 4:
+            continue
+
+        x, y, w, h = cv2.boundingRect(contour)
+        aspect_ratio = float(w) / h
+
+        # Check if the aspect ratio is within a reasonable range for windows
+        if aspect_ratio < 0.1 or aspect_ratio > 1.5:
+            continue
+
+        new_box = (x, y, w, h)
+
+        # Ensure the new box does not overlap significantly with existing boxes
+        if any(iou(new_box, box) > 0.1 for box in detected_boxes):
+            continue
+
+        window_count += 1
+        detected_boxes.append(new_box)
+        
+        # Draw rectangle around the detected window
+        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        # Label the window with its count
+        cv2.putText(image, str(window_count), (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
 # Print the total number of detected windows
 print("Number of windows:", window_count)
