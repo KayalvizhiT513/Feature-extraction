@@ -54,7 +54,6 @@ for aperture in [3, 5]:
         if any(iou(new_box, box) > 0.1 for box in detected_boxes):
             continue
 
-        window_count += 1
         detected_boxes.append(new_box)
         
         # Draw rectangle around the detected window
@@ -63,7 +62,7 @@ for aperture in [3, 5]:
         cv2.putText(image, str(window_count), (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
 # Print the total number of detected windows
-print("Number of windows:", window_count)
+print("Number of windows:", len(detected_boxes))
 
 # Save and display the result
 cv2.imwrite('windows_detected.jpg', image)  # Save the final image with detected windows
